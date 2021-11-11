@@ -1,3 +1,4 @@
+SET foreign_key_checks = 0;
 DROP TABLE Account;
 DROP TABLE Customers_Have_1;
 DROP TABLE Customers_Have_2;
@@ -18,6 +19,7 @@ DROP TABLE Logistic_Staff;
 DROP TABLE Customer_Service;
 DROP TABLE Work_On;
 DROP TABLE Help;
+SET foreign_key_checks = 1;
 
 
 
@@ -25,7 +27,6 @@ DROP TABLE Help;
 CREATE TABLE Account(
     email_address VARCHAR(50),
     password VARCHAR(50) NOT NULL,
-    prime_expires_in INT NOT NULL ,
     PRIMARY KEY (email_address)
 );
 
@@ -55,8 +56,10 @@ CREATE TABLE Sellers (
     ID VARCHAR(50),
     name VARCHAR(50) NOT NULL,
     billing_info VARCHAR(50) NOT NULL ,
+    email_address VARCHAR(50) UNIQUE NOT NULL ,
 
-    PRIMARY KEY (ID)
+    PRIMARY KEY (ID),
+    FOREIGN KEY (email_address) REFERENCES Account(email_address) ON DELETE CASCADE
 );
 
 CREATE TABLE Products_Post (
@@ -64,6 +67,7 @@ CREATE TABLE Products_Post (
     seller_ID VARCHAR(50),
     name VARCHAR(50) NOT NULL ,
     parcel_dimension VARCHAR(50) ,
+    image BLOB,
 
     PRIMARY KEY (product_ID),
     FOREIGN KEY (seller_ID) REFERENCES Sellers(ID) ON DELETE CASCADE
@@ -160,9 +164,13 @@ CREATE TABLE Staff_2 (
     employee_ID VARCHAR(50),
     job_title VARCHAR(50) NOT NULL ,
     name VARCHAR(50) NOT NULL ,
+    email_address VARCHAR(50) UNIQUE NOT NULL ,
+
 
     PRIMARY KEY (employee_ID),
-    FOREIGN KEY (job_title) REFERENCES Staff_1(job_title) ON DELETE CASCADE
+    FOREIGN KEY (job_title) REFERENCES Staff_1(job_title) ON DELETE CASCADE,
+    FOREIGN KEY (email_address) REFERENCES Account(email_address) ON DELETE CASCADE
+
 );
 
 CREATE TABLE Logistic_Staff (
@@ -213,19 +221,68 @@ CREATE TABLE Help (
 (email address, password, prime_expires_in)
 password, prime_expires_in: not null*/
 INSERT INTO Account
-VALUES ('ares@gmail.com', 'password', 365);
+VALUES ('ares@gmail.com', 'password');
 
 INSERT INTO Account
-VALUES ('zhangsan@163.com','88888888',0);
+VALUES ('zhangsan@163.com','88888888');
 
 INSERT INTO Account
-VALUES ('ding@126.com', '123456a',1);
+VALUES ('ding@126.com', '123456a');
 
 INSERT INTO Account
-VALUES ('enyo@gmail.com', 'citybuilder666',34);
+VALUES ('enyo@gmail.com', 'citybuilder666');
 
 INSERT INTO Account
-VALUES ('artemis@qq.com','iloveares',0);
+VALUES ('artemis@qq.com','iloveares');
+
+INSERT INTO Account
+VALUES ('s1@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('s2@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('s3@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('s4@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('s5@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e0@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e1@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e2@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e3@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e4@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e5@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e6@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e7@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e8@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e9@gmail.com','123456');
+
+INSERT INTO Account
+VALUES ('e10@gmail.com','123456');
+
 
 
 /*Customers_Have_1
@@ -289,37 +346,37 @@ VALUES ('c5','p5','o5');
 (ID, name, billing_info)
 name, billing_info: not null */
 INSERT INTO Sellers
-VALUES ('s1','Nox','2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+VALUES ('s1','Nox','2205 Lower Mall, Vancouver, BC, V6T 1Z4', 's1@gmail.com');
 
 INSERT INTO Sellers
-VALUES ('s2','Mary Sue', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+VALUES ('s2','Mary Sue', '2205 Lower Mall, Vancouver, BC, V6T 1Z4', 's2@gmail.com');
 
 INSERT INTO Sellers
-VALUES ('s3','Jack Sue', '1984 Mathematics Road, Vancouver, BC, V6T 1Z2');
+VALUES ('s3','Jack Sue', '1984 Mathematics Road, Vancouver, BC, V6T 1Z2', 's3@gmail.com');
 
 INSERT INTO Sellers
-VALUES ('s4','Alpha Go', '345 rue McTavish, Montreal, QC, H3A 0C99');
+VALUES ('s4','Alpha Go', '345 rue McTavish, Montreal, QC, H3A 0C99', 's4@gmail.com');
 
 INSERT INTO Sellers
-VALUES ('s5','Luna Moon', '345 rue McTavish, Montreal, QC, H3A 0C99');
+VALUES ('s5','Luna Moon', '345 rue McTavish, Montreal, QC, H3A 0C99', 's5@gmail.com');
 
 /*Products_Post
 (product_ID, seller_ID, name, parcel_dimension)
 name, storage: not null  */
 INSERT INTO Products_Post
-VALUES ('p1','s1','magic stick', '1*1*30');
+VALUES ('p1','s1','magic stick', '1*1*30', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p2','s2', 'teddy bear', '15*17*25');
+VALUES ('p2','s2', 'teddy bear', '15*17*25', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p3','s3', 'hair band', null);
+VALUES ('p3','s3', 'hair band', null, LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p4','s4', 'watermelon', '30*30*30');
+VALUES ('p4','s4', 'watermelon', '30*30*30', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p5','s5', 'regret medicine', '1*1*1');
+VALUES ('p5','s5', 'regret medicine', '1*1*1', LOAD_FILE('./data/default_product.png'));
 
 /*Coupon
 (code, product_ID, expiry_date, amount)
@@ -504,37 +561,37 @@ VALUES ('customer service worker', 18);
   job_title, name: not null
 */
 INSERT INTO Staff_2
-VALUES ('e0','boss', 'Julius Caesar');
+VALUES ('e0','boss', 'Julius Caesar', 'e0@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e1','Warehouse Associate', 'nox');
+VALUES ('e1','Warehouse Associate', 'nox', 'e1@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e2','delivery man', 'ares');
+VALUES ('e2','delivery man', 'ares', 'e2@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e3','delivery man', 'artemis');
+VALUES ('e3','delivery man', 'artemis', 'e3@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e4','delivery man', 'eros');
+VALUES ('e4','delivery man', 'eros', 'e4@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e5','delivery manager', 'hades');
+VALUES ('e5','delivery manager', 'hades', 'e5@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e6','customer service worker', 'Erebus Eos');
+VALUES ('e6','customer service worker', 'Erebus Eos', 'e6@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e7','customer service worker', 'Phoebe Althea');
+VALUES ('e7','customer service worker', 'Phoebe Althea', 'e7@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e8','customer service worker', 'Linus Praxis');
+VALUES ('e8','customer service worker', 'Linus Praxis', 'e8@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e9','customer service worker', 'Phaedra Diomedes');
+VALUES ('e9','customer service worker', 'Phaedra Diomedes', 'e9@gmail.com');
 
 INSERT INTO Staff_2
-VALUES ('e10','customer service worker', 'Carme Demeter');
+VALUES ('e10','customer service worker', 'Carme Demeter', 'e10@gmail.com');
 
 
 /* Logistic_Staff (employee_ID, region)
