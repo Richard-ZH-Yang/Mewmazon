@@ -1,15 +1,57 @@
-body {
+Body {  
+    font-family: Arial;  
+    background-color: white;  
+  }  
+
+   form {   
+      border: 3px solid #f1f1f1;   
+  }   
+   input[type=text], input[type=password] {   
+      width: 45%;   
+      margin: 8px 0;  
+      padding: 12px 20px;   
+      display: inline-block;   
+      border: 2px solid black;   
+      box-sizing: border-box;   
+    }  
+
+       
+   .container {   
+      text-align: center;
+      padding-left: 150px;
+      padding-right: 150px;
+      padding-top: 70px;
+      padding-bottom: 70px;
+  }   
+  
+
+  
+  .left {
+      text-align:left;
+      padding-left: 27%;
+  }
+  
+  .btn1 {
+      display: block;
+      width: 45%; 
+      padding: 10px 15px;
+      border: 0;
+      background: rgb(233, 196, 96);
+      color: black;
+      border-radius: 3px;
+      margin: 20px 28%;
+      text-align: center;
+      text-decoration: none;
+  }
+  .btn2 {
+    display: block;
+    width: 45%; 
+    padding: 10px 15px;
+    border: 0;
+    background: rgb(179, 177, 173);
+    color: black;
+    border-radius: 3px;
+    margin: 10px 28%;
     text-align: center;
-}
-
-section {
-    padding-top: 50px;
-    padding-bottom: 50px;
-}
-
-a {
     text-decoration: none;
-    font-size: 25px;
-    font-family: Arial;
-    color: rgb(60, 162, 209);
 }
