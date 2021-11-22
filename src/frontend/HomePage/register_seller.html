@@ -4,7 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title> Seller Register Page </title>
-  <link rel="stylesheet" href="register.css">
+  <link rel="stylesheet" href="all_css/register.css">
 </head>
 
 <body>
@@ -18,7 +18,6 @@
       <section class="left">
         <label for="email">Email:</label>
       </section>
-
       <section>
         <input type="text" placeholder="Enter Email" name="email" id="email" required>
       </section>
@@ -26,7 +25,6 @@
       <section class="left">
         <label for="psw">Password:</label>
       </section>
-
       <section>
         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
       </section>
@@ -36,8 +34,50 @@
       </section>
       <section>
         <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-
       </section>
+
+      <section class="left">
+        <label for="fname">First Name:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Enter Your First Name" name="fname" id="fname">
+      </section>
+
+      <section class="left">
+        <label for="lname">Last Name:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Enter Your Last Name" name="lname" id="lname">
+      </section>
+
+      <section class="left">
+        <label for="province">Province:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Example: British Columbia" name="province" id="province">
+      </section>
+
+      <section class="left">
+        <label for="city">City:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Example: Vancouver" name="city" id="city">
+      </section>
+
+      <section class="left">
+        <label for="address">Street address, building, unit:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Example: Room 101, Building A, 1000 Lower Mall" name="address" id="address">
+      </section>
+
+      <section class="left">
+        <label for="postal code">Postal Code:</label>
+      </section>
+      <section>
+        <input type="text" placeholder="Example:V6T 1X1" name="postal code" id="postal code" pattern="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]">
+      </section>
+
 
 
       <button type="submit" class="registerbtn">
