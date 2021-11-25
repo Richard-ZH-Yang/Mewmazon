@@ -1,29 +1,3 @@
-SET foreign_key_checks = 0;
-DROP TABLE Account;
-DROP TABLE Customers_Have_1;
-DROP TABLE Customers_Have_2;
-DROP TABLE Sellers;
-DROP TABLE Products_Post;
-DROP TABLE Purchase;
-DROP TABLE Coupon;
-DROP TABLE Warehouse;
-DROP TABLE Uses;
-DROP TABLE Store;
-DROP TABLE Transfer_Station;
-DROP TABLE Transfer_To;
-DROP TABLE Ship_To;
-DROP TABLE Delivery;
-DROP TABLE Staff_2;
-DROP TABLE Staff_1;
-DROP TABLE Logistic_Staff;
-DROP TABLE Customer_Service;
-DROP TABLE Work_On;
-DROP TABLE Help;
-SET foreign_key_checks = 1;
-
-
-
-
 CREATE TABLE Account(
     email_address VARCHAR(50),
     password VARCHAR(50) NOT NULL,
@@ -67,6 +41,8 @@ CREATE TABLE Products_Post (
     seller_ID VARCHAR(50),
     name VARCHAR(50) NOT NULL ,
     parcel_dimension VARCHAR(50) ,
+    # status can be "AVAILABLE", "IN_PROGRESS", "COMPLETE"
+    status VARCHAR(50) NOT NULL ,
     image BLOB,
 
     PRIMARY KEY (product_ID),
@@ -364,19 +340,19 @@ VALUES ('s5','Luna Moon', '345 rue McTavish, Montreal, QC, H3A 0C99', 's5@gmail.
 (product_ID, seller_ID, name, parcel_dimension)
 name, storage: not null  */
 INSERT INTO Products_Post
-VALUES ('p1','s1','magic stick', '1*1*30', LOAD_FILE('./data/default_product.png'));
+VALUES ('p1','s1','magic stick', '1*1*30', 'AVAILABLE', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p2','s2', 'teddy bear', '15*17*25', LOAD_FILE('./data/default_product.png'));
+VALUES ('p2','s2', 'teddy bear', '15*17*25','AVAILABLE', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p3','s3', 'hair band', null, LOAD_FILE('./data/default_product.png'));
+VALUES ('p3','s3', 'hair band', null,'AVAILABLE', LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p4','s4', 'watermelon', '30*30*30', LOAD_FILE('./data/default_product.png'));
+VALUES ('p4','s4', 'watermelon', '30*30*30', 'AVAILABLE',LOAD_FILE('./data/default_product.png'));
 
 INSERT INTO Products_Post
-VALUES ('p5','s5', 'regret medicine', '1*1*1', LOAD_FILE('./data/default_product.png'));
+VALUES ('p5','s5', 'regret medicine', '1*1*1','AVAILABLE', LOAD_FILE('./data/default_product.png'));
 
 /*Coupon
 (code, product_ID, expiry_date, amount)
