@@ -218,9 +218,11 @@ function handeleRegisterRequest() {
         $result1 = executePlainSQL("SELECT Count(*) FROM Account WHERE email_address = '$email'");
         $result2 = executePlainSQL("SELECT Count(*) FROM Customers_Have_1 WHERE postal_code = '$postal'");
 
-        if (($row = oci_fetch_row($result1))[0] == 0 && ($row2 = oci_fetch_row($result2))[0] == 0) {
+        if (($row = oci_fetch_row($result1))[0] == 0) {
             executeBoundSQL("insert into Account values (:bind1, :bind2)", $alltuples);
-            executeBoundSQL("insert into Customers_Have_1 values (:bind9, :bind6, :bind7)", $alltuples);
+            if (($row2 = oci_fetch_row($result2))[0] == 0) {
+                executeBoundSQL("insert into Customers_Have_1 values (:bind9, :bind6, :bind7)", $alltuples);
+            }
             executeBoundSQL("insert into Customers_Have_2 values (:bind5, :bind1, :bind4, :bind9, :streetname, :streetno, :bind8)", $alltuples);
             echo "registration success!";
         } else {
