@@ -8,13 +8,13 @@
 </head>
 
 <body>
-    <center>
-        <h1> Seller Log In </h1>
-    </center>
-    <form>
+<div style="text-align: center;">
+    <h1> Seller Log In </h1>
+</div>
+    <form method = "POST" action = "../../php/login_seller.php">
         <div class="container">
 
-
+            <input type="hidden" id="loginRequest" name="loginRequest">
             <section class="left">
                 <label>Email: </label>
             </section>
@@ -29,7 +29,7 @@
             </section>
 
             <div class="buttons">
-                <input class="btn1" type="submit" id="login-submit" value="Log in">
+                <input class="btn1" type="submit" name="login_submit" value="Login">
                 <input class="btn2" type="button" value="Cancel" onclick="history.back(-1)" />
             </div>
 

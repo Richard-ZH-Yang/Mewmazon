@@ -8,13 +8,13 @@
 </head>
 
 <body>
-  <center>
-    <h1>Register A Seller Account</h1>
-  </center>
-  <form action="../../php/action_page.php">
+  <div style="text-align: center;">
+    <h1>Register A Customer Account</h1>
+  </div>
+  <form method="POST" action="../../php/register_seller.php">
     <div class="container">
 
-
+      <input type="hidden" id="registerRequest" name="registerRequest">
       <section class="left">
         <label for="email">Email:</label>
       </section>
@@ -37,17 +37,10 @@
       </section>
 
       <section class="left">
-        <label for="fname">First Name:</label>
+        <label for="name">Name:</label>
       </section>
       <section>
-        <input type="text" placeholder="Enter Your First Name" name="fname" id="fname">
-      </section>
-
-      <section class="left">
-        <label for="lname">Last Name:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Enter Your Last Name" name="lname" id="lname">
+        <input type="text" placeholder="Enter Your First Name" name="name" id="name">
       </section>
 
       <section class="left">
@@ -72,15 +65,14 @@
       </section>
 
       <section class="left">
-        <label for="postal code">Postal Code:</label>
+        <label for="_">Postal Code:</label>
       </section>
       <section>
-        <input type="text" placeholder="Example:V6T 1X1" name="postal code" id="postal code" pattern="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]">
+        <input type="text" placeholder="Example:V6T 1X1" name="postal_code" id="postal_code" pattern="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]">
       </section>
 
 
-
-      <button type="submit" class="registerbtn">
+      <button type="submit" name="registration">
 
         Register
       </button>

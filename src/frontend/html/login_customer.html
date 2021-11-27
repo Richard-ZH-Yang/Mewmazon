@@ -8,33 +8,33 @@
 </head>
 
 <body>
-    <center>
-        <h1> Customer Log In </h1>
-    </center>
-    <form>
-        <div class="container">
+<div style="text-align: center;">
+    <h1> Customer Log In </h1>
+</div>
+<form method = "POST" action = "../../php/login_customer.php">
+    <div class="container">
 
+        <input type="hidden" id="login" name="login">
+        <section class="left">
+            <label>Email: </label>
+        </section>
+        <section>
+            <input type="text" placeholder="Enter Email" name="email" required>
+        </section>
+        <section class="left">
+            <label>Password: </label>
+        </section>
+        <section>
+            <input type="password" placeholder="Enter Password" name="password" required>
+        </section>
 
-            <section class="left">
-                <label>Email: </label>
-            </section>
-            <section>
-                <input type="text" placeholder="Enter Email" name="email" required>
-            </section>
-            <section class="left">
-                <label>Password: </label>
-            </section>
-            <section>
-                <input type="password" placeholder="Enter Password" name="password" required>
-            </section>
-
-            <div class="buttons">
-                <input class="btn1" type="submit" id="login-submit" value="Log in">
-                <input class="btn2" type="button" value="Cancel" onclick="history.back(-1)" />
-            </div>
-
+        <div class="buttons">
+            <input class="btn1" type="submit" id="login-submit" value="Log in">
+            <input class="btn2" type="button" value="Cancel" onclick="history.back(-1)" />
         </div>
-    </form>
+
+    </div>
+</form>
 </body>
 
 </html>
