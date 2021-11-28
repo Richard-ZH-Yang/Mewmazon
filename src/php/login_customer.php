@@ -8,36 +8,36 @@
 </head>
 
 <body>
-    <div style="text-align: center;">
-        <h1> Customer Log In </h1>
-    </div>
-    <form method = "POST" action = "login_customer.php">
-        <div class="container">
+<div style="text-align: center;">
+    <h1> Customer Log In </h1>
+</div>
+<form method = "POST" action = "login_customer.php">
+    <div class="container">
 
         <input type="hidden" id="loginRequest" name="loginRequest">
-            <section class="left">
-                <label>Email: </label>
-            </section>
-            <section>
-                <input type="text" placeholder="Enter Email" name="email" required>
-            </section>
-            <section class="left">
-                <label>Password: </label>
-            </section>
-            <section>
-                <input type="password" placeholder="Enter Password" name="password" required>
-            </section>
+        <section class="left">
+            <label>Email: </label>
+        </section>
+        <section>
+            <input type="text" placeholder="Enter Email" name="email" required>
+        </section>
+        <section class="left">
+            <label>Password: </label>
+        </section>
+        <section>
+            <input type="password" placeholder="Enter Password" name="password" required>
+        </section>
 
-            <div class="buttons">
-                <input class="btn1" type="submit" name="login_submit" value="Login">
-                <input class="btn2" type="button" value="Cancel" onclick="history.back(-1)" />
-            </div>
-
+        <div class="buttons">
+            <input class="btn1" type="submit" name="login_submit" value="Login">
+            <input class="btn2" type="button" value="Cancel" onclick="history.back(-1)" />
         </div>
-    </form>
-  <?php
 
-  require('dbUtilUBCServer.php');
+    </div>
+</form>
+<?php
+
+require('dbUtilUBCServer.php');
 
 function handleloginRequest() {
     global $db_conn;
