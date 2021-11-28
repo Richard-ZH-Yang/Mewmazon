@@ -163,6 +163,7 @@ if (isset($_POST['registration'])) {
 } else if (isset($_GET['showProductRequest'])) {
     handleGETRequest();
 }
+
 ?>
 
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
@@ -73,7 +73,7 @@ function handleloginRequest() {
         $_SESSION['userName'] = $email;
         // TODO jump to customer_service
         echo "loginRequest success";
-        echo "<script type='text/javascript'> document.location = 'staff_cs_main_page.php'; </script>";
+        echo "<script type='text/javascript'> document.location = 'staff_cs_main_page.php?ID=$email'; </script>";
     }
 
 
@@ -114,4 +114,4 @@ if (isset($_POST['login_submit'])) {
 </body>
 
 </html>
-
+ -->
