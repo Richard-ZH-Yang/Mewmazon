@@ -5,84 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> Customer Register Page </title>
     <link rel="stylesheet" href="../css/register.css">
+    <link rel="stylesheet" href="../css/style.css">
+
 </head>
 
 <body>
-  <center>
+<div style="text-align: center;">
     <h1>Register A Customer Account</h1>
-  </center>
-  <form method="POST" action="register_customer.php">
+</div>
+<form method="POST" action="register_customer.php">
     <div class="container">
 
-      <input type="hidden" id="registerRequest" name="registerRequest">
-      <section class="left">
-        <label for="email">Email:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Enter Email" name="email" id="email" required>
-      </section>
+        <input type="hidden" id="registerRequest" name="registerRequest">
+        <section class="left">
+            <label for="email">Email:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Enter Email" name="email" id="email" required>
+        </section>
 
-      <section class="left">
-        <label for="psw">Password:</label>
-      </section>
-      <section>
-        <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-      </section>
+        <section class="left">
+            <label for="psw">Password:</label>
+        </section>
+        <section>
+            <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+        </section>
 
-      <section class="left">
-        <label for="psw-repeat">Repeat Password:</label>
-      </section>
-      <section>
-        <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
-      </section>
+        <section class="left">
+            <label for="psw-repeat">Repeat Password:</label>
+        </section>
+        <section>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
+        </section>
 
-      <section class="left">
-        <label for="name">Name:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Enter Your First Name" name="name" id="name">
-      </section>
+        <section class="left">
+            <label for="name">Name:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Enter Your First Name" name="name" id="name">
+        </section>
 
-      <section class="left">
-        <label for="province">Province:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Example: British Columbia" name="province" id="province">
-      </section>
+        <section class="left">
+            <label for="province">Province:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Example: British Columbia" name="province" id="province">
+        </section>
 
-      <section class="left">
-        <label for="city">City:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Example: Vancouver" name="city" id="city">
-      </section>
+        <section class="left">
+            <label for="city">City:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Example: Vancouver" name="city" id="city">
+        </section>
 
-      <section class="left">
-        <label for="address">Street address, building, unit:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Example: Room 101, Building A, 1000 Lower Mall" name="address" id="address">
-      </section>
+        <section class="left">
+            <label for="address">Street address, building, unit:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Example: Room 101, Building A, 1000 Lower Mall" name="address" id="address">
+        </section>
 
-      <section class="left">
-        <label for="_">Postal Code:</label>
-      </section>
-      <section>
-        <input type="text" placeholder="Example:V6T 1X1" name="postal_code" id="postal_code" pattern="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]">
-      </section>
+        <section class="left">
+            <label for="_">Postal Code:</label>
+        </section>
+        <section>
+            <input type="text" placeholder="Example:V6T 1X1" name="postal_code" id="postal_code" pattern="[A-Z][0-9][A-Z] [0-9][A-Z][0-9]">
+        </section>
 
 
-      <button type="submit" name="registration">
+        <button type="submit" name="registration">
+            Register
+        </button>
+        <input class = "btn" type="button" value="Cancel" onclick="history.back(-1)" />
 
-        Register
-      </button>
 
     </div>
     <div class="container signin">
-      <p>Already have an account? <a href="login_customer.php">Sign in</a>.</p>
+        <p>Already have an account? <a href="login_customer.php">Sign in</a>.</p>
     </div>
-  </form>
-  <?php
+</form>
+<?php
 
 require ('dbUtilUBCServer.php');
 
@@ -160,8 +163,6 @@ function handleGETRequest() {
 
 if (isset($_POST['registration'])) {
     handlePOSTRequest();
-} else if (isset($_GET['showProductRequest'])) {
-    handleGETRequest();
 }
 ?>
 

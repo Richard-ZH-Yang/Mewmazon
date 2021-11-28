@@ -1,0 +1,20 @@
+.btn {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    border: 0;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    margin: 5px 0;
+    text-align: center;
+    text-decoration: none;
+}
+
+
+
+.btn:hover, btn:visited, btn:link, btn:active {
+    background: #444;
+    text-decoration: none;
+
+}

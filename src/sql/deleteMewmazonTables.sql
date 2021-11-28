@@ -1,4 +1,3 @@
-SET foreign_key_checks = 0;
 DROP TABLE Account;
 DROP TABLE Customers_Have_1;
 DROP TABLE Customers_Have_2;
@@ -19,4 +18,3 @@ DROP TABLE Logistic_Staff;
 DROP TABLE Customer_Service;
 DROP TABLE Work_On;
 DROP TABLE Help;
-SET foreign_key_checks = 1;
