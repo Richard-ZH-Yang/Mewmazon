@@ -41,6 +41,7 @@ require ('dbUtilUBCServer.php');
 
 function handleloginRequest() {
     global $db_conn;
+
     if (isset($_POST['email']) == false || isset($_POST['password']) == false) {
         echo "You must fill put emial and password";
         header("refresh:10");
@@ -49,18 +50,20 @@ function handleloginRequest() {
     $email = $_POST['email'];
     $psw = $_POST['password'];
 
-    $sql_select = executePlainSQL("SELECT Count(*) FROM Account WHERE email_address = '$email' AND password = '$psw'");
-    $result1 = executePlainSQL("SELECT Count(*) FROM Sellers WHERE email_address = '$email'");
+    $sql_select = executePlainSQL("SELECT Count(*) FROM Account INNER JOIN Sellers ON Account.email_address = Sellers.email_address WHERE Account.email_address= '$email' AND password = '$psw'");
+    // $result1 = executePlainSQL("SELECT Count(*) FROM Sellers WHERE email_address= '$email'");
     $results = oci_fetch_row($sql_select);
-    $number  = (int)$results[0];
-    if($number == 0 && ($row = oci_fetch_row($result1))[0] == 0) {
-        echo "Sorry, the CUSTOMER account is not found!";
-        header("refresh:1");
+    $number  = $results[0];
+    $id = executePlainSQL("SELECT ID FROM Sellers WHERE email_address='$email'");
+    $temp = OCI_Fetch_Array($id, OCI_BOTH);
+    $ID = $temp['ID'];
+    if($number == 0) {
+        echo "Sorry, the seller account is not found!";
     } else {
         $_SESSION['userName'] = $email;
         // TODO jump to customer
         echo "loginRequest success";
-        echo "<script type='text/javascript'> document.location = 'seller_main_page.php'; </script>";
+        echo "<script type='text/javascript'> document.location = 'seller_main_page.php?ID=$ID'; </script>";
     }
 
 

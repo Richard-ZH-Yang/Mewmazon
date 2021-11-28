@@ -1,5 +1,5 @@
 /*Account
-(email address, password, prime_expires_in)
+(email address, password)
 password, prime_expires_in: not null*/
 insert into Account
 values ('ares@gmail.com', 'password');
@@ -142,22 +142,22 @@ insert into Sellers
 values ('s5','Luna Moon', '345 rue McTavish, Montreal, QC, H3A 0C99', 's5@gmail.com');
 
 /*Products_Post
-(product_ID, seller_ID, name, parcel_dimension)
+(product_ID, seller_ID, name, parcel_dimension, status, image)
 name, storage: not null  */
 insert into Products_Post
-values ('p1','s1','magic stick', '1*1*30', null);
+values ('p1','s1','magic stick', '1*1*30', 'AVAILABLE', 10);
 
 insert into Products_Post
-values ('p2','s2', 'teddy bear', '15*17*25', null);
+values ('p2','s2', 'teddy bear', '15*17*25','AVAILABLE', 200);
 
 insert into Products_Post
-values ('p3','s3', 'hair band', null, null);
+values ('p3','s3', 'hair band', null,'AVAILABLE', 30);
 
 insert into Products_Post
-values ('p4','s4', 'watermelon', '30*30*30', null);
+values ('p4','s4', 'watermelon', '30*30*30','AVAILABLE', 40);
 
 insert into Products_Post
-values ('p5','s5', 'regret medicine', '1*1*1', null);
+values ('p5','s5', 'regret medicine', '1*1*1', 'AVAILABLE',50);
 
 /*Coupon
 (code, product_ID, expiry_date, amount)

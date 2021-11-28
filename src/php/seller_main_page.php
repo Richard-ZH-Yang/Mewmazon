@@ -24,7 +24,8 @@
             <!-- <input type="text" placeholder="seller email" name="email" id="email" required><br> -->
             <input type="text" placeholder="product name" name="productName" id="productName" required><br>
             <input type="text" placeholder="parcel dimension" name="parcelDimension" id="parcelDimension" required><br>
-            <input type="submit" value="addSubmit" name="addSubmit"></p >
+            <input type="text" placeholder="product price" name="productPrice" id="productPrice" required><br>
+            <input type="submit" value="addProductRequest" name="addProductRequest"><br>
         </form>
 
         <h2>Delete product from Product table</h2>
@@ -36,13 +37,6 @@
         </form>
 
         <hr/>
-        <form method="GET" action="seller_main_page.php">
-            <h2>Show your current product</h2>
-            <input type="hidden" id="showProductRequest" name="showProductRequest">
-            <button type="submit" name="showProduct">Show</button>
-        </form>
-
-        <hr/>
 
     </div>
 </form>
@@ -50,6 +44,11 @@
 <?php
 
 require('dbUtilUBCServer.php');
+if ($_GET['ID']) {
+    $globalID = $_GET['ID'];
+    echo $globalID;
+}
+
 
 function printResult($result)
 { //prints results from a select statement
@@ -64,29 +63,37 @@ function printResult($result)
     echo "</table>";
 }
 
-function handleAddProductRequest()
+function handleAddProductRequest($globalID)
 {
     global $db_conn;
+    global $globalID;
 
-    if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false) {
+    // $temp = $GLOBALS['globalID'];
+
+    echo $globalID;
+    echo gettype($temp);
+
+    if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false
+        || isset($_POST['productPrice']) == false) {
         echo "You must fill all blanks!";
         header("refresh:10");
     }
 
-    //Getting the values from user and insert data into the table
+
     $tuple = array(
         ":bind1" => uniqid(),
-        ":bind2" => $_POST['sellerID'],
+        ":bind2" => $globalID,
         ":bind3" => $_POST['productName'],
         ":bind4" => $_POST['parcelDimension'],
-        ":bind5" => ""
+        ":bind5" => 'AVAILABLE',
+        ":bind6" => $_POST['productPrice']
     );
 
     $alltuples = array(
         $tuple
     );
 
-    executeBoundSQL("insert into products_post values (:bind1, :bind2, :bind3, :bind4, :bind5)", $alltuples);
+    executeBoundSQL("insert into products_post values (:bind1, :bind2, :bind3, :bind4, :bind5, :bind6)", $alltuples);
     OCICommit($db_conn);
 }
 
@@ -104,21 +111,20 @@ function handleDeleteProduct()
     OCICommit($db_conn);
 }
 
-function handleShowProductRequest()
+function handleShowProductRequest($globalID)
 {
     global $db_conn;
-    $sellerID = $_GET['sellerID'];
-    $result = executePlainSQL("SELECT * FROM products_post WHERE seller_ID = '$sellerID'");
+    $result = executePlainSQL("SELECT * FROM products_post WHERE seller_ID = '$globalID'");
     printResult($result);
 }
 
 // HANDLE ALL POST ROUTES
 // A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
-function handlePOSTRequest()
+function handlePOSTRequest($globalID)
 {
     if (connectToDB()) {
         if (array_key_exists('addProductRequest', $_POST)) {
-            handleAddProductRequest();
+            handleAddProductRequest($globalID);
         } else if (array_key_exists('deleteProduct', $_POST)) {
             handleDeleteProduct();
         }
@@ -128,21 +134,42 @@ function handlePOSTRequest()
 
 // HANDLE ALL GET ROUTES
 // A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
-function handleGETRequest()
+function handleGETRequest($globalID)
 {
     if (connectToDB()) {
         if (array_key_exists('showProduct', $_GET)) {
-            handleShowProductRequest();
+            handleShowProductRequest($globalID);
         }
         disconnectFromDB();
     }
 }
 
-if (isset($_POST['reset']) || isset($_POST['addProductRequest']) || isset($_POST['deleteProduct'])) {
-    handlePOSTRequest();
+if ((isset($_POST['addProductRequest']) || isset($_POST['deleteProduct']))) {
+    global $globalID;
+    handlePOSTRequest($globalID);
 } else if (isset($_GET['showProductRequest'])) {
-    handleGETRequest();
+    global $globalID;
+    handleGETRequest($globalID);
 }
+
+if (connectToDB()) {
+    global $db_conn;
+    $result = executePlainSQL("SELECT * FROM products_post WHERE seller_ID = '$globalID'");
+    printResult($result);
+    echo "<br><tr><th>Number of Avalibale Products</th></tr><br>";
+    $result1 = executePlainSQL("SELECT count(*) FROM products_post GROUP BY products_post.status HAVING products_post.status = 'AVAILABLE'");
+    if (($row = oci_fetch_row($result)) != false) {
+        echo "<tr><td>" . $row[0] . "</td></tr>";
+    }
+    echo "<br><tr><th>Number of Processing Products</th></tr><br>";
+    $result1 = executePlainSQL("SELECT count(*) FROM products_post GROUP BY products_post.status HAVING products_post.status = 'PROCESS'");
+    if (($row = oci_fetch_row($result)) != false) {
+        echo "<tr><td>" . $row[0] . "</td></tr>";
+    }
+
+}
+
+
 ?>
 
 
