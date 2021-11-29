@@ -18,3 +18,6 @@ Ding Ma: backend
 
 # How to use:
 https://www.students.cs.ubc.ca/~rzhyang/mewmazon/src/php
+
+please note that to initialize the database and populate the database, please go to https://www.students.cs.ubc.ca/~rzhyang/mewmazon/src/php/admin.php
+click reset and click insert
