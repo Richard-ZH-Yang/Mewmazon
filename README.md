@@ -15,3 +15,6 @@ Jiaying Liao: frontend and GUI design
 Zhonghao(Richard) Yang: frontend and backend 
 
 Ding Ma: backend
+
+# How to use:
+https://www.students.cs.ubc.ca/~rzhyang/mewmazon/src/php
