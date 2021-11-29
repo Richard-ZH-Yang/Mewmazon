@@ -166,16 +166,16 @@ create table Customer_Service (
 grant select on Customer_Service to public;
 
 create table Work_On (
-                         ID char(50) null,
+                         product_ID char(50) null,
                          warehouseLocation char(50) null,
                          translocation char(50) null,
-                         product_ID char(50) null,
+                         customer_ID char(50) null,
                          employee_ID char(50) null,
-                         primary key (product_ID, warehouseLocation, translocation, ID, employee_ID),
+                         primary key (product_ID, warehouseLocation, translocation, customer_ID, employee_ID),
                          foreign key (product_ID) references Products_Post ON DELETE CASCADE,
                          foreign key (warehouseLocation) references Warehouse ON DELETE CASCADE,
                          foreign key (translocation) references Transfer_Station ON DELETE CASCADE,
-                         foreign key (ID) references Customers_Have_2 ON DELETE CASCADE,
+                         foreign key (customer_ID) references Customers_Have_2 ON DELETE CASCADE,
                          foreign key (employee_ID) references Staff_2 ON DELETE CASCADE);
 
 grant select on Work_On to public;

@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Seller main page </title>
+    <title> customer main page </title>
     <link rel="stylesheet" href="../css/login_style.css">
 </head>
 
@@ -20,11 +20,11 @@
         <h2>Update Password</h2>
 
         <form method="POST" action="customer_home_page.php"> <!--refresh page when submitted-->
-            <input type="hidden" id="addProductRequest" name="addProductRequest">
-            <!-- <input type="text" placeholder="seller email" name="email" id="email" required><br> -->
+            <input type="hidden" id="updatePassword" name="updatePassword">
+            <input type="text" placeholder="Email" name="email" id="email" required><br>
             <input type="text" placeholder="Old Password" name="oldpsw" id="oldpsw" required><br>
             <input type="text" placeholder="New Password" name="newpsw" id="newpsw" required><br>
-            <input type="submit" value="updateSubmit" name="updateSubmit"><br>
+            <input type="submit" value="update" name="updateSubmit"><br>
         </form>
 
         <hr/>
@@ -32,6 +32,14 @@
         <form method="GET" action="customer_home_page.php"> <!--refresh page when submitted-->
             <input type="hidden" id="showLowestAvg" name="showLowestAvg">
             <button type="submit" value="showLowestAvg" name="showLowestAvg">Show Product with cheapest Average Price</button>
+        </form>
+
+        <hr/>
+
+        <form method="GET" action="customer_home_page.php"> <!--refresh page when submitted-->
+            <input type="hidden" id="showProductSelledByAllSellers" name="showProductSelledByAllSellers">
+            <input type="text" placeholder="product name" name="productName" id="productName" required><br>
+            <button type="submit" value="showProductSelledByAllSellers" name="showProductSelledByAllSellers">Show all sellers that sell this product</button>
         </form>
 
         <hr/>
@@ -55,50 +63,29 @@ function printResult($result)
     echo "<tr><th>Product Name</th><th></th><th>Average Price</th></tr>";
 
     while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-        echo "<tr><td>" . $row["NAME"] ."</td><td>" . $row["PRICE"] . "</td></tr>";
+        echo "<tr><td>" . $row[0] ."</td><td>" . $row[1] . "</td></tr>";
     }
 
     echo "</table>";
 }
 
-function printDistinctProduct($result) {
-    echo "<br>Product from product table:<br>";
-    echo "<table>";
-    echo "<tr><th>Product Name</th></tr>";
-
-    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-        echo "<tr><td>" . $row["NAME"] . "</td></tr>";
-    }
-
-    echo "</table></br>";
-}
-
-function handleUppdateRequest($globalID)
+function handleUppdateRequest()
 {
     global $db_conn;
-    global $globalID;
 
-    // $temp = $GLOBALS['globalID'];
 
-    echo $globalID;
-    echo gettype($temp);
 
-    if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false) {
-        echo "You must fill all blanks!";
-        header("refresh:10");
-    }
-
-    $psw = executePlainSQL("SELECT password FROM Account WHERE email_address='$email'");
-    $temp = OCI_Fetch_Array($psw, OCI_BOTH);
-    $origpsw = $temp['PASSWORD'];
+    $email = $_POST['email'];
     $oldpsw = $_POST['oldpsw'];
     $newpsw = $_POST['newpsw'];
+    $sql_select = executePlainSQL("SELECT Count(*) FROM Account INNER JOIN Customers_Have_2 ON Account.email_address = Customers_Have_2.email_address WHERE Account.email_address= '$email' AND password = '$oldpsw'");
+    $results = oci_fetch_row($sql_select);
+    $number  = $results[0];
 
-    if ($origpsw != $oldpsw) {
+    if ($number == 0) {
         echo "you old password dosen't match, please try again!";
     } else {
-        executeBoundSQL("UPDATE Account SET password = '$newpsw'");
-        echo "update success!";
+        executePlainSQL("UPDATE Account SET PASSWORD = '$newpsw' WHERE email_address = '$email'");
     }
 
 
@@ -108,21 +95,44 @@ function handleUppdateRequest($globalID)
 function handleShowLowestAvgRequest()
 {
     global $db_conn;
-    global $globalID;
-    $result = executePlainSQL("SELECT name, AVG(price) name FROM Products_Post p1 GROUP BY p1.name HAVING AVG(p1.price) <= ALL (SELECT AVG(p2.price) FROM Products_Post p2 GROUP BY p2.price)");
+    $result = executePlainSQL("SELECT p1.name, AVG(price) name FROM Products_Post p1 GROUP BY p1.name HAVING AVG(p1.price) <= ALL (SELECT AVG(p2.price) FROM Products_Post p2 GROUP BY p2.name)");
     printResult($result);
     OCICommit($db_conn);
 }
 
+function handleShowProductSelledByAllSellers()
+{
+
+    global $db_conn;
+    $name = $_GET['productName'];
+    $result = executePlainSQL("SELECT s.name
+    FROM Sellers s
+    WHERE NOT EXISTS ((SELECT DISTINCT s1.name
+                                       FROM Sellers s1)
+                                       MINUS 
+                                       (SELECT DISTINCT s2.name
+                                        FROM Products_Post p1, Sellers s2
+                                        WHERE s.ID = p1.seller_ID AND p1.name = '$name'))");
+
+    echo "<br>All sellers sell this product:<br>";
+    echo "<table>";
+    echo "<tr><th>Seller Name</th></tr>";
+
+    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
+        echo "<tr><td>" . $row["NAME"] . "</td></tr>";
+    }
+    OCICommit($db_conn);
+}
+
+
+
 // HANDLE ALL POST ROUTES
 // A better coding practice is to have one method that reroutes your requests accordingly. It will make it easier to add/remove functionality.
-function handlePOSTRequest($globalID)
+function handlePOSTRequest()
 {
     if (connectToDB()) {
-        if (array_key_exists('addProductRequest', $_POST)) {
-            handleUppdateRequest($globalID);
-        } else if (array_key_exists('deleteProduct', $_POST)) {
-            handleDeleteProduct();
+        if (array_key_exists('updatePassword', $_POST)) {
+            handleUppdateRequest();
         }
         disconnectFromDB();
     }
@@ -135,6 +145,8 @@ function handleGETRequest()
     if (connectToDB()) {
         if (array_key_exists('showLowestAvg', $_GET)) {
             handleShowLowestAvgRequest();
+        } else if (array_key_exists('showProductSelledByAllSellers', $_GET)){
+            handleShowProductSelledByAllSellers();
         }
         disconnectFromDB();
     }
@@ -142,15 +154,21 @@ function handleGETRequest()
 
 if (isset($_POST['updateSubmit'])) {
     handlePOSTRequest();
-} else if (isset($_GET['showLowestAvg'])) {
+} else if (isset($_GET['showLowestAvg']) ||isset($_GET['showProductSelledByAllSellers'])) {
     handleGETRequest();
 }
 
 if (connectToDB()) {
     global $db_conn;
     $result = executePlainSQL("SELECT DISTINCT name FROM products_post");
-    printDistinctProduct($result);
 
+    echo "<br>Products from product table:<br>";
+    echo "<table>";
+    echo "<tr><th>Product Name</th></tr>";
+
+    while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
+        echo "<tr><td>" . $row["NAME"] . "</td></tr>";
+    }
 }
 ?>
 
