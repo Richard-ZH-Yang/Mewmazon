@@ -17,52 +17,64 @@ insert into Account
 values ('artemis@qq.com','iloveares');
 
 insert into Account
-values ('s1@gmail.com','123456');
+values ('c1@gmail.com','123');
+insert into Account
+values ('c2@gmail.com','123');
+insert into Account
+values ('c3@gmail.com','123');
+insert into Account
+values ('c4@gmail.com','123');
+insert into Account
+values ('c5@gmail.com','123');
+insert into Account
+values ('c6@gmail.com','123');
+insert into Account
+values ('s1@gmail.com','123');
 
 insert into Account
-values ('s2@gmail.com','123456');
+values ('s2@gmail.com','123');
 
 insert into Account
-values ('s3@gmail.com','123456');
+values ('s3@gmail.com','123');
 
 insert into Account
-values ('s4@gmail.com','123456');
+values ('s4@gmail.com','123');
 
 insert into Account
-values ('s5@gmail.com','123456');
+values ('s5@gmail.com','123');
 
 insert into Account
-values ('e0@gmail.com','123456');
+values ('e0@gmail.com','123');
 
 insert into Account
-values ('e1@gmail.com','123456');
+values ('e1@gmail.com','123');
 
 insert into Account
-values ('e2@gmail.com','123456');
+values ('e2@gmail.com','123');
 
 insert into Account
-values ('e3@gmail.com','123456');
+values ('e3@gmail.com','123');
 
 insert into Account
-values ('e4@gmail.com','123456');
+values ('e4@gmail.com','123');
 
 insert into Account
-values ('e5@gmail.com','123456');
+values ('e5@gmail.com','123');
 
 insert into Account
-values ('e6@gmail.com','123456');
+values ('e6@gmail.com','123');
 
 insert into Account
-values ('e7@gmail.com','123456');
+values ('e7@gmail.com','123');
 
 insert into Account
-values ('e8@gmail.com','123456');
+values ('e8@gmail.com','123');
 
 insert into Account
-values ('e9@gmail.com','123456');
+values ('e9@gmail.com','123');
 
 insert into Account
-values ('e10@gmail.com','123456');
+values ('e10@gmail.com','123');
 
 
 
@@ -90,19 +102,19 @@ values ('H3A 0C9', 'QC', 'Montreal');
  */
 
 insert into Customers_Have_2
-values ('c1','ares@gmail.com','Victor Lee','V6T 1Z4', 'Lower Mall', '2205', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c1','c1@gmail.com','Victor Lee','V6T 1Z4', 'Lower Mall', '2205', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c2','zhangsan@163.com','Lucien Shi', 'V6T 1Z5', null, null, null);
+values ('c2','c2@gmail.com','Lucien Shi', 'V6T 1Z5', null, null, null);
 
 insert into Customers_Have_2
-values ('c3','ding@126.com','Flora Niu', 'V6T 1Z6', null, null, '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c3','c3@gmail.com','Flora Niu', 'V6T 1Z6', null, null, '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c4','enyo@gmail.com','Zheng Ying','V6T 1Z2', 'Mathematics Road','1984', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c4','c4@gmail.com','Zheng Ying','V6T 1Z2', 'Mathematics Road','1984', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c5','artemis@qq.com','Youran Su', 'H3A 0C9', 'rue McTavish', '3459', null);
+values ('c5','c5@gmail.com','Youran Su', 'H3A 0C9', 'rue McTavish', '3459', null);
 
 
 /*Purchase

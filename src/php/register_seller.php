@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> Customer Register Page </title>
+    <title> Seller Register Page </title>
     <link rel="stylesheet" href="../css/register.css">
     <link rel="stylesheet" href="../css/style.css">
 
@@ -11,7 +11,7 @@
 
 <body>
 <div style="text-align: center;">
-    <h1>Register A Customer Account</h1>
+    <h1>Register A Seller Account</h1>
 </div>
 <form method="POST" action="register_seller.php">
     <div class="container">
