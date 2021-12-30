@@ -17,14 +17,23 @@
 <form action="seller_main_page.php" method="post">
     <div class="container">
 
+        <h2>Enter your email</h2>
+
+        <form method="POST" action="seller_main_page.php"> <!--refresh page when submitted-->
+            <input type="hidden" id="submitEmail" name="submitEmail">
+            <input type="text" placeholder="seller email" name="email" id="email" required><br>
+            <input type="submit" value="print my product" name="submitEmail"><br>
+        </form> 
+
         <h2>Add product into Product table</h2>
 
         <form method="POST" action="seller_main_page.php"> <!--refresh page when submitted-->
             <input type="hidden" id="addProductRequest" name="addProductRequest">
-            <!-- <input type="text" placeholder="seller email" name="email" id="email" required><br> -->
+            <input type="text" placeholder="seller email" name="email" id="email" required><br>
             <input type="text" placeholder="product name" name="productName" id="productName" required><br>
             <input type="text" placeholder="parcel dimension" name="parcelDimension" id="parcelDimension" required><br>
-            <input type="submit" value="addSubmit" name="addSubmit"></p >
+            <input type="text" placeholder="product price" name="productPrice" id="productPrice" required><br>
+            <input type="submit" value="addProductRequest" name="addProductRequest"><br>
         </form>
 
         <h2>Delete product from Product table</h2>
@@ -36,13 +45,6 @@
         </form>
 
         <hr/>
-        <form method="GET" action="seller_main_page.php">
-            <h2>Show your current product</h2>
-            <input type="hidden" id="showProductRequest" name="showProductRequest">
-            <button type="submit" name="showProduct">Show</button>
-        </form>
-
-        <hr/>
 
     </div>
 </form>
@@ -51,14 +53,15 @@
 
 require('dbUtilUBCServer.php');
 
+
 function printResult($result)
 { //prints results from a select statement
     echo "<br>Retrieved data from product table:<br>";
     echo "<table>";
-    echo "<tr><th>Product ID</th><th>Sller ID</th><th>Producr Name</th><th>Parcel Dimension</th></tr>";
+    echo "<tr><th>Product ID</th><th>Sller ID</th><th>Producr Name</th><th>Parcel Dimension</th><th>Price</th></tr>";
 
     while ($row = OCI_Fetch_Array($result, OCI_BOTH)) {
-        echo "<tr><td>" . $row["PRODUCT_ID"] . "</td><td>" . $row["SELLER_ID"] . "</td><td>" . $row["NAME"] . "</td><td>" . $row["PARCEL_DIMENSION"] . "</td></tr>";
+        echo "<tr><td>" . $row["PRODUCT_ID"] . "</td><td>" . $row["SELLER_ID"] . "</td><td>" . $row["NAME"] . "</td><td>" . $row["PARCEL_DIMENSION"] ."</td><td>" . $row["PRICE"] . "</td></tr>";
     }
 
     echo "</table>";
@@ -68,38 +71,47 @@ function handleAddProductRequest()
 {
     global $db_conn;
 
-    if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false) {
+    $email = $_POST['email'];
+    $id = executePlainSQL("SELECT ID FROM Sellers WHERE email_address='$email'");
+    $temp = OCI_Fetch_Array($id, OCI_BOTH);
+    $ID = $temp['ID'];
+    if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false
+    || isset($_POST['productPrice']) == false) {
         echo "You must fill all blanks!";
         header("refresh:10");
     }
 
-    //Getting the values from user and insert data into the table
+    
     $tuple = array(
         ":bind1" => uniqid(),
-        ":bind2" => $_POST['sellerID'],
+        ":bind2" => $ID,
         ":bind3" => $_POST['productName'],
         ":bind4" => $_POST['parcelDimension'],
-        ":bind5" => ""
+        ":bind5" => 'AVAILABLE',
+        ":bind6" => $_POST['productPrice']
     );
 
     $alltuples = array(
         $tuple
     );
 
-    executeBoundSQL("insert into products_post values (:bind1, :bind2, :bind3, :bind4, :bind5)", $alltuples);
+    executeBoundSQL("insert into products_post values (:bind1, :bind2, :bind3, :bind4, :bind5, :bind6)", $alltuples);
     OCICommit($db_conn);
 }
 
 function handleDeleteProduct()
 {
     global $db_conn;
-    echo "delete product";
-    if (isset($_POST['productID']) == false) {
+
+    // $email = $_POST['email'];
+    // $id = executePlainSQL("SELECT ID FROM Sellers WHERE email_address='$email'");
+    // $temp = OCI_Fetch_Array($id, OCI_BOTH);
+    $ID = $_GET['productID'];
+
+    if (isset($_GET['productID']) == false) {
         echo "You must fill all blanks!";
-        header("refresh:10");
     }
-    $productID = $_POST['productID'];
-    $result = "DELETE FROM products_post WHERE product_ID = '$productID'";
+    $result = "DELETE FROM products_post WHERE product_ID = '$ID'";
     executePlainSQL($result);
     OCICommit($db_conn);
 }
@@ -107,9 +119,22 @@ function handleDeleteProduct()
 function handleShowProductRequest()
 {
     global $db_conn;
-    $sellerID = $_GET['sellerID'];
-    $result = executePlainSQL("SELECT * FROM products_post WHERE seller_ID = '$sellerID'");
+    $email = $_POST['email'];
+    $id = executePlainSQL("SELECT ID FROM Sellers WHERE email_address='$email'");
+    $temp = OCI_Fetch_Array($id, OCI_BOTH);
+    $ID = $temp['ID'];
+    $result = executePlainSQL("SELECT * FROM products_post WHERE seller_ID = '$ID'");
     printResult($result);
+    echo "<br><tr><th>Number of Avalibale Products</th></tr><br>";
+    $result1 = executePlainSQL("SELECT count(*) FROM products_post WHERE seller_ID = '$ID' GROUP BY status HAVING status = 'AVAILABLE'");
+    if (($row = oci_fetch_row($result1)) != false) { 
+        echo "<tr><td>" . $row[0] . "</td></tr>";
+    }
+    echo "<br><tr><th>Number of Processing Products</th></tr><br>";
+    $result2 = executePlainSQL("SELECT count(*) FROM products_post WHERE seller_ID = '$ID' GROUP BY status HAVING status = 'PROCESS'");
+    if (($row = oci_fetch_row($result2)) != false) {
+        echo "<tr><td>" . $row[0] . "</td></tr>";
+    }
 }
 
 // HANDLE ALL POST ROUTES
@@ -119,8 +144,8 @@ function handlePOSTRequest()
     if (connectToDB()) {
         if (array_key_exists('addProductRequest', $_POST)) {
             handleAddProductRequest();
-        } else if (array_key_exists('deleteProduct', $_POST)) {
-            handleDeleteProduct();
+        } else if (array_key_exists('submitEmail', $_POST)) {
+            handleShowProductRequest();
         }
         disconnectFromDB();
     }
@@ -133,16 +158,22 @@ function handleGETRequest()
     if (connectToDB()) {
         if (array_key_exists('showProduct', $_GET)) {
             handleShowProductRequest();
+        }else if (array_key_exists('deleteProduct', $_GET)) {
+            handleDeleteProduct();
         }
         disconnectFromDB();
     }
 }
+// if ((isset($_POST['submitEmail'])) && isset($_POST['email']) == true) {
 
-if (isset($_POST['reset']) || isset($_POST['addProductRequest']) || isset($_POST['deleteProduct'])) {
+if (isset($_POST['addProductRequest']) || isset($_POST['submitEmail'])) {
     handlePOSTRequest();
-} else if (isset($_GET['showProductRequest'])) {
+} else if (isset($_GET['showProductRequest'])|| isset($_GET['deleteProduct'])) {
     handleGETRequest();
 }
+
+
+
 ?>
 
 

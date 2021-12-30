@@ -35,15 +35,17 @@ create table Sellers (
                          email_address char(50) unique not null ,
                          primary key (ID),
                          foreign key (email_address) references Account ON DELETE CASCADE);
+grant select on Sellers to public;
 
 
-
+/*status can be AVAILABLE, PROCESS, DELIVERED*/
 create table Products_Post (
                                product_ID char(50),
-                               seller_ID char(50),
+                               seller_ID char(50) not null,
                                name char(50) not null ,
                                parcel_dimension char(50) null,
-                               image BLOB null,
+                               status char(50) not null,
+                               price char(50) not null,
                                primary key (product_ID),
                                foreign key (seller_ID) references Sellers ON DELETE CASCADE);
 
@@ -52,7 +54,7 @@ grant select on Sellers to public;
 create table Coupon (
                         code char(50) null,
                         product_ID char(50) null,
-                        expiry_date DATE not null,
+                        expiry_date char(50) not null,
                         amount double precision not null,
                         primary key (code, product_ID),
                         foreign key (product_ID) references Products_Post ON DELETE CASCADE);
@@ -164,17 +166,17 @@ create table Customer_Service (
 grant select on Customer_Service to public;
 
 create table Work_On (
-                         ID char(50) null,
-                         warehouseLocation char(50) null,
-                         translocation char(50) null,
-                         product_ID char(50) null,
-                         employee_ID char(50) null,
-                         primary key (product_ID, warehouseLocation, translocation, ID, employee_ID),
-                         foreign key (product_ID) references Products_Post ON DELETE CASCADE,
-                         foreign key (warehouseLocation) references Warehouse ON DELETE CASCADE,
-                         foreign key (translocation) references Transfer_Station ON DELETE CASCADE,
-                         foreign key (ID) references Customers_Have_2 ON DELETE CASCADE,
-                         foreign key (employee_ID) references Staff_2 ON DELETE CASCADE);
+product_ID char(50) null,
+warehouseLocation char(50) null,
+translocation char(50) null,
+customer_ID char(50) null,
+employee_ID char(50) null,
+primary key (product_ID, warehouseLocation, translocation, customer_ID, employee_ID),
+foreign key (product_ID) references Products_Post ON DELETE CASCADE,
+foreign key (warehouseLocation) references Warehouse ON DELETE CASCADE,
+foreign key (translocation) references Transfer_Station ON DELETE CASCADE,
+foreign key (customer_ID) references Customers_Have_2 ON DELETE CASCADE,
+foreign key (employee_ID) references Staff_2 ON DELETE CASCADE);
 
 grant select on Work_On to public;
 

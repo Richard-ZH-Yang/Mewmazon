@@ -1,5 +1,5 @@
 /*Account
-(email address, password, prime_expires_in)
+(email address, password)
 password, prime_expires_in: not null*/
 insert into Account
 values ('ares@gmail.com', 'password');
@@ -17,52 +17,64 @@ insert into Account
 values ('artemis@qq.com','iloveares');
 
 insert into Account
-values ('s1@gmail.com','123456');
+values ('c1@gmail.com','123');
+insert into Account
+values ('c2@gmail.com','123');
+insert into Account
+values ('c3@gmail.com','123');
+insert into Account
+values ('c4@gmail.com','123');
+insert into Account
+values ('c5@gmail.com','123');
+insert into Account
+values ('c6@gmail.com','123');
+insert into Account
+values ('s1@gmail.com','123');
 
 insert into Account
-values ('s2@gmail.com','123456');
+values ('s2@gmail.com','123');
 
 insert into Account
-values ('s3@gmail.com','123456');
+values ('s3@gmail.com','123');
 
 insert into Account
-values ('s4@gmail.com','123456');
+values ('s4@gmail.com','123');
 
 insert into Account
-values ('s5@gmail.com','123456');
+values ('s5@gmail.com','123');
 
 insert into Account
-values ('e0@gmail.com','123456');
+values ('e0@gmail.com','123');
 
 insert into Account
-values ('e1@gmail.com','123456');
+values ('e1@gmail.com','123');
 
 insert into Account
-values ('e2@gmail.com','123456');
+values ('e2@gmail.com','123');
 
 insert into Account
-values ('e3@gmail.com','123456');
+values ('e3@gmail.com','123');
 
 insert into Account
-values ('e4@gmail.com','123456');
+values ('e4@gmail.com','123');
 
 insert into Account
-values ('e5@gmail.com','123456');
+values ('e5@gmail.com','123');
 
 insert into Account
-values ('e6@gmail.com','123456');
+values ('e6@gmail.com','123');
 
 insert into Account
-values ('e7@gmail.com','123456');
+values ('e7@gmail.com','123');
 
 insert into Account
-values ('e8@gmail.com','123456');
+values ('e8@gmail.com','123');
 
 insert into Account
-values ('e9@gmail.com','123456');
+values ('e9@gmail.com','123');
 
 insert into Account
-values ('e10@gmail.com','123456');
+values ('e10@gmail.com','123');
 
 
 
@@ -90,19 +102,19 @@ values ('H3A 0C9', 'QC', 'Montreal');
  */
 
 insert into Customers_Have_2
-values ('c1','ares@gmail.com','Victor Lee','V6T 1Z4', 'Lower Mall', '2205', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c1','c1@gmail.com','Victor Lee','V6T 1Z4', 'Lower Mall', '2205', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c2','zhangsan@163.com','Lucien Shi', 'V6T 1Z5', null, null, null);
+values ('c2','c2@gmail.com','Lucien Shi', 'V6T 1Z5', null, null, null);
 
 insert into Customers_Have_2
-values ('c3','ding@126.com','Flora Niu', 'V6T 1Z6', null, null, '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c3','c3@gmail.com','Flora Niu', 'V6T 1Z6', null, null, '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c4','enyo@gmail.com','Zheng Ying','V6T 1Z2', 'Mathematics Road','1984', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
+values ('c4','c4@gmail.com','Zheng Ying','V6T 1Z2', 'Mathematics Road','1984', '2205 Lower Mall, Vancouver, BC, V6T 1Z4');
 
 insert into Customers_Have_2
-values ('c5','artemis@qq.com','Youran Su', 'H3A 0C9', 'rue McTavish', '3459', null);
+values ('c5','c5@gmail.com','Youran Su', 'H3A 0C9', 'rue McTavish', '3459', null);
 
 
 /*Purchase
@@ -142,22 +154,22 @@ insert into Sellers
 values ('s5','Luna Moon', '345 rue McTavish, Montreal, QC, H3A 0C99', 's5@gmail.com');
 
 /*Products_Post
-(product_ID, seller_ID, name, parcel_dimension)
+(product_ID, seller_ID, name, parcel_dimension, status, image)
 name, storage: not null  */
 insert into Products_Post
-values ('p1','s1','magic stick', '1*1*30', null);
+values ('p1','s1','magic stick', '1*1*30', 'AVAILABLE', 10);
 
 insert into Products_Post
-values ('p2','s2', 'teddy bear', '15*17*25', null);
+values ('p2','s2', 'teddy bear', '15*17*25','AVAILABLE', 200);
 
 insert into Products_Post
-values ('p3','s3', 'hair band', null, null);
+values ('p3','s3', 'hair band', null,'AVAILABLE', 30);
 
 insert into Products_Post
-values ('p4','s4', 'watermelon', '30*30*30', null);
+values ('p4','s4', 'watermelon', '30*30*30','AVAILABLE', 40);
 
 insert into Products_Post
-values ('p5','s5', 'regret medicine', '1*1*1', null);
+values ('p5','s5', 'regret medicine', '1*1*1', 'AVAILABLE',50);
 
 /*Coupon
 (code, product_ID, expiry_date, amount)
