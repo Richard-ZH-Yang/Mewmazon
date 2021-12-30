@@ -76,20 +76,12 @@ function handleAddProductRequest()
     $temp = OCI_Fetch_Array($id, OCI_BOTH);
     $ID = $temp['ID'];
     if (isset($_POST['productName']) == false || isset($_POST['parcelDimension']) == false
-<<<<<<< HEAD
     || isset($_POST['productPrice']) == false) {
-=======
-        || isset($_POST['productPrice']) == false) {
->>>>>>> af09ac1bb97c7d08a79c29253b48d144a38eeb7a
         echo "You must fill all blanks!";
         header("refresh:10");
     }
 
-<<<<<<< HEAD
     
-=======
-
->>>>>>> af09ac1bb97c7d08a79c29253b48d144a38eeb7a
     $tuple = array(
         ":bind1" => uniqid(),
         ":bind2" => $ID,
@@ -135,11 +127,7 @@ function handleShowProductRequest()
     printResult($result);
     echo "<br><tr><th>Number of Avalibale Products</th></tr><br>";
     $result1 = executePlainSQL("SELECT count(*) FROM products_post WHERE seller_ID = '$ID' GROUP BY status HAVING status = 'AVAILABLE'");
-<<<<<<< HEAD
     if (($row = oci_fetch_row($result1)) != false) { 
-=======
-    if (($row = oci_fetch_row($result1)) != false) {
->>>>>>> af09ac1bb97c7d08a79c29253b48d144a38eeb7a
         echo "<tr><td>" . $row[0] . "</td></tr>";
     }
     echo "<br><tr><th>Number of Processing Products</th></tr><br>";
